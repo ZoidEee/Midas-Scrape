@@ -1,3 +1,7 @@
+#   Created: August 5th, 2022
+#   Author: Mckenzie Turner
+#   Name: Midas.Investments Report Scraper (MIRS)
+
 import csv
 import menu3
 
