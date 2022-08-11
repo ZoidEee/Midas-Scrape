@@ -6,7 +6,7 @@ import csv
 import menu3
 
 months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-keys = ["REWARD", "REWARD_BOOST", "SWAP"]
+keys = ["REWARD", "REWARD_BOOST", "SWAP", "DEPOSIT"]
 total_amount = []
 
 
