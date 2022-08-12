@@ -3,6 +3,8 @@
 #   Name: Midas.Investments Report Scraper (MIRS)
 
 import csv
+import os.path
+
 import menu3
 
 months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
@@ -10,8 +12,41 @@ keys = ["REWARD", "REWARD_BOOST", "SWAP", "DEPOSIT"]
 total_amount = []
 
 
-def data_scrape(month, key):
-    with open('report.csv', 'r') as csv_f:
+def start_up():
+    desktop_folder = os.path.expanduser('~/Desktop/M.I.R.S')
+    directory = os.path.exists(desktop_folder)
+    file_count = len(os.listdir(desktop_folder))
+    files = []
+
+    try:
+        if not directory:
+            os.makedirs(desktop_folder)
+            print(f"Please place the '.csv' withing {desktop_folder}")
+        else:
+            if file_count == 0:
+                print(f"Please place the '.csv' withing {desktop_folder}\nRestart to begin")
+                return
+            else:
+                for file in os.listdir(desktop_folder):
+                    files.append(desktop_folder + '/' + file)
+
+    except Exception as error:
+        print(error)
+
+    menu(files)
+
+
+def menu(files):
+    core = menu3.Menu(True)
+
+    f_menu = core.menu("Please select a file to begin:\n", files, "\nPress, 'q' to quit now:")
+    m_menu = core.menu("Please select a month to begin:\n", months, "\nPress, 'q' to quit now:")
+    k_menu = core.menu("Please select a category:\n", keys, "\nPress, 'q' to quit now:")
+    data_scrape(files[f_menu - 1], months[m_menu - 1], keys[k_menu - 1])
+
+
+def data_scrape(file, month, key):
+    with open(file, 'r') as csv_f:
         reader = csv.reader(csv_f, delimiter="\t")
 
         for line in enumerate(reader):
@@ -33,7 +68,5 @@ def data_scrape(month, key):
     print(f"\nTotal = {sum(total_amount)}" + f" {key}")
 
 
+start_up()
 core_menu = menu3.Menu(True)
-menu_initialize = core_menu.menu("Please select a month to begin: ", months, "Press, 'q' to quit now: ")
-reader_menu_ini = core_menu.menu("Please select a category: ", keys, "Press, 'q' to quit now: ")
-data_scrape(months[menu_initialize - 1], keys[reader_menu_ini - 1])
